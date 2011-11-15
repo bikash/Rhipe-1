@@ -10,6 +10,9 @@ kmeans.clustering <- function(D, k, col1, col2)
 {
 
 m <- read.Data(D, col1, col2)
+m <- init.Clusters(m, k)
+huh <- calculate.centroid(m, 2)
+print(c(huh))
 return(m)
 
 }
@@ -49,9 +52,25 @@ return(Data)
 #Calculate the centroid given the data matrix and the id of cluster. Return centroid coordinates.
 calculate.centroid <- function(Data, id) 
 {
+#sortedData <- Data[sort.list(Data[,3]),]
+counter <- 0
+x.coord <- 0
+y.coord <- 0
+for(i in 1:nrow(Data)){
+	if(toString(id)==Data[i,3]){
+		x.coord <- x.coord + Data[i,1]
+		y.coord <- y.coord + Data[i,2]
+		counter <- counter + 1
+	}
+}
+print(c(x.coord))
+print(c(y.coord))
+print(c(counter))
 
-
-
+x.coord <- x.coord / counter
+y.coord <- y.coord / counter
+coords <- c(x.coord, y.coord)
+return(coords)
 
 }
 
