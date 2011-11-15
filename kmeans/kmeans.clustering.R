@@ -90,7 +90,7 @@ cluster <- function(Data)
 #Draws the graph. Don't know much about this yet.
 draw.Clusters <- function(Data) 
 {
-
+plot(Data[,1],Data[,2],col=c(Data[,3]))
 
 
 
