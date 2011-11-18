@@ -87,13 +87,14 @@ cluster <- function(Data)
 
 
 
-#Draws the graph. Don't know much about this yet.
-draw.Clusters <- function(Data) 
+#Draws the graph. Pass the index and path (all directories must exist!) where to save the file.
+#Path can be either relative to R working dir, or global, up to dir where file will be placed
+#It will output the graph to a .png
+#It will over-write any files with the same name
+draw.Clusters <- function(Data,index,path) 
 {
+pathInstance<-paste(path,"kmeans",index,".png",sep="",collapse=NULL)
+png(pathInstance)
 plot(Data[,1],Data[,2],col=c(Data[,3]))
-
-
-
-
-
+dev.off()
 }
