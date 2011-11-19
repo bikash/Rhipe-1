@@ -14,6 +14,7 @@ m <- init.Clusters(m, k)
 
 for(i in 1:iterations){
 	m2 <- cluster(m, k)
+	draw.Clusters(m2, i, "C:/cygwin/home/Diana/Clustering/")  
 	if(compare(m, m2)){
 		return(m2)
 	}
@@ -26,7 +27,7 @@ return(m)
 
 #Compares cluster column of two matrices and return false if different
 compare <- function(Data, Data2){
-	for(i in 1:nrow(Data){
+	for(i in 1:nrow(Data)){
 		if(!as.numeric(Data[i,3])==as.numeric(Data2[i,3])){
 			return(FALSE)
 		}
@@ -80,9 +81,6 @@ for(i in 1:nrow(Data)){
 		counter <- counter + 1
 	}
 }
-print(c(x.coord))
-print(c(y.coord))
-print(c(counter))
 
 x.coord <- x.coord / counter
 y.coord <- y.coord / counter
@@ -105,7 +103,8 @@ for(i in 1:nrow(Data)){
 	for(j in 1:k){
 		temp[j] <- sqrt((Data[i,1]-centroids[j,2])^2+(Data[i,1]-centroids[j,2])^2) 
 	}
-min <- get.min(centroids)
+
+min <- get.min(temp)
 Data[i,3] <- min
 
 }
@@ -118,6 +117,7 @@ get.min <- function(Data){
 min <- 10000000
 index <- 0
 for(i in 1:length(Data)){
+
 	if(as.numeric(Data[i]) < min){
 		index = i
 		min = as.numeric(Data[i])
