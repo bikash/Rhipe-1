@@ -5,16 +5,33 @@
 
 
 
-#D = Path to data file, k=number of clusters, col1 = Column name 1, col2 = Column name 2
-kmeans.clustering <- function(D, k, col1, col2) 
+#D = Path to data file, k=number of clusters, col1 = Column name 1, col2 = Column name 2, iterations = number of max iterations
+kmeans.clustering <- function(D, k, col1, col2, iterations) 
 {
 
 m <- read.Data(D, col1, col2)
 m <- init.Clusters(m, k)
-huh <- calculate.centroid(m, 2)
-print(c(huh))
+
+for(i in 1:iterations){
+	m2 <- cluster(m, k)
+	if(compare(m, m2)){
+		return(m2)
+	}
+	m <- m2
+}
+
 return(m)
 
+}
+
+#Compares cluster column of two matrices and return false if different
+compare <- function(Data, Data2){
+	for(i in 1:nrow(Data){
+		if(!as.numeric(Data[i,3])==as.numeric(Data2[i,3])){
+			return(FALSE)
+		}
+	}
+return(TRUE)
 }
 
 
@@ -76,15 +93,39 @@ return(coords)
 
 
 
-#Use calculate.centroid to get centroid, and then assign every row to the closest cluster centroid. Return false if no row was assigned to a different cluster, true otherwise.
-cluster <- function(Data) 
+#Use calculate.centroid to get centroid, and then assign every row to the closest cluster centroid. Return data.
+cluster <- function(Data, k) 
 {
+centroids <- matrix(nrow=0, ncol=2)
+for(r in 1:k){
+	centroids <- rbind(centroids, calculate.centroid(Data, r))
+}
+for(i in 1:nrow(Data)){
+	temp <- c()
+	for(j in 1:k){
+		temp[j] <- sqrt((Data[i,1]-centroids[j,2])^2+(Data[i,1]-centroids[j,2])^2) 
+	}
+min <- get.min(centroids)
+Data[i,3] <- min
 
-
-
+}
+return(Data)
 
 }
 
+#Return the index of the min value item in a list.
+get.min <- function(Data){
+min <- 10000000
+index <- 0
+for(i in 1:length(Data)){
+	if(as.numeric(Data[i]) < min){
+		index = i
+		min = as.numeric(Data[i])
+	}
+
+}
+return(index)
+}
 
 
 #Draws the graph. Pass the index and path (all directories must exist!) where to save the file.
