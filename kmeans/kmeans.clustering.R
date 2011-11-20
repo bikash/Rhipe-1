@@ -97,9 +97,8 @@ for(r in 1:k){
 for(i in 1:nrow(Data)){
 	temp <- c()
 	for(j in 1:k){
-		temp[j] <- sqrt((Data[i,1]-centroids[j,2])^2+(Data[i,1]-centroids[j,2])^2) 
+		temp[j] <- sqrt((Data[i,1]-centroids[j,1])^2+(Data[i,2]-centroids[j,2])^2) 
 	}
-
 min <- get.min(temp)
 Data[i,3] <- min
 
@@ -110,6 +109,7 @@ return(Data)
 
 #Return the index of the min value item in a list.
 get.min <- function(Data){
+
 min <- 10000000
 index <- 0
 for(i in 1:length(Data)){
