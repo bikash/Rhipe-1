@@ -5,8 +5,8 @@
 
 
 
-#D = Path to data file, k=number of clusters, col1 = Column name 1, col2 = Column name 2, iterations = number of max iterations
-kmeans.clustering <- function(D, k, col1, col2, iterations) 
+#D = Path to data file, k=number of clusters, col1 = Column name 1, col2 = Column name 2, iterations = number of max iterations, destination=destination directory of images
+kmeans.clustering <- function(D, k, col1, col2, iterations, destination) 
 {
 
 m <- read.Data(D, col1, col2)
@@ -14,7 +14,7 @@ m <- init.Clusters(m, k)
 
 for(i in 1:iterations){
 	m2 <- cluster(m, k)
-	draw.Clusters(m2, i, "C:/cygwin/home/Diana/Clustering/")  
+	draw.Clusters(m2, i, destination, k, col1, col2)  
 	if(compare(m, m2)){
 		return(m2)
 	}
@@ -112,14 +112,14 @@ get.min <- function(Data){
 
 min <- 10000000
 index <- 0
-for(i in 1:length(Data)){
+	for(i in 1:length(Data)){
 
-	if(as.numeric(Data[i]) < min){
-		index = i
-		min = as.numeric(Data[i])
+		if(as.numeric(Data[i]) < min){
+			index = i
+			min = as.numeric(Data[i])
+		}
+
 	}
-
-}
 return(index)
 }
 
@@ -128,10 +128,12 @@ return(index)
 #Path can be either relative to R working dir, or global, up to dir where file will be placed
 #It will output the graph to a .png
 #It will over-write any files with the same name
-draw.Clusters <- function(Data,index,path) 
+draw.Clusters <- function(Data,index,path,k,xLabel,yLabel) 
 {
 pathInstance<-paste(path,"kmeans",index,".png",sep="",collapse=NULL)
 png(pathInstance)
-plot(Data[,1],Data[,2],col=c(Data[,3]))
+iteration<-paste("Iteration number ",index,sep="",collapse=NULL)
+graphTitle<-paste("kMeans in R: ",k," Clusters",sep="",collapse=NULL)
+plot(Data[,1],Data[,2],col=c(Data[,3]), xlab=xLabel, ylab=yLabel, main=graphTitle, sub=iteration)
 dev.off()
 }
