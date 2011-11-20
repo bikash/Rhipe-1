@@ -1,6 +1,6 @@
 #Example query: 
 #source("C:/cygwin/home/Diana/Clustering/kmeans/kmeans.clustering.R")
-#m <- kmeans.clustering("C:/cygwin/home/Diana/Clustering/Data/docword.kos.txt", 5, "Col1", "Col2")
+#m <- kmeans.clustering("C:/cygwin/home/Diana/Clustering/Data/fakedata.txt", 5, "Col1", "Col2")
 #m
 
 
@@ -43,8 +43,7 @@ read.Data <- function(Data, col1, col2)
 {
 
 m <- matrix(scan(Data), ncol=2, byrow = TRUE)
-m <- cbind(m, c(0))
-colnames(m)=c(col1, col2, "Cluster ID")
+colnames(m)=c(col1, col2)
 return(m)
 
 }
@@ -56,12 +55,7 @@ return(m)
 init.Clusters <- function(Data, k) 
 {
 
-
-for(i in 1:nrow(Data)){
-random <- sample(1:k, 1)
-Data[i, 3] <- random
-}
-
+Data <- cbind(Data, 1:k)
 return(Data)
 }
 
@@ -96,8 +90,10 @@ cluster <- function(Data, k)
 {
 centroids <- matrix(nrow=0, ncol=2)
 for(r in 1:k){
+
 	centroids <- rbind(centroids, calculate.centroid(Data, r))
 }
+
 for(i in 1:nrow(Data)){
 	temp <- c()
 	for(j in 1:k){
