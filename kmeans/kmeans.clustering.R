@@ -79,6 +79,9 @@ for(i in 1:nrow(Data)){
 x.coord <- x.coord / counter
 y.coord <- y.coord / counter
 coords <- c(x.coord, y.coord)
+if(counter==0){
+	return(c(0,0))
+}	
 return(coords)
 
 }
@@ -90,7 +93,6 @@ cluster <- function(Data, k)
 {
 centroids <- matrix(nrow=0, ncol=2)
 for(r in 1:k){
-
 	centroids <- rbind(centroids, calculate.centroid(Data, r))
 }
 
@@ -99,6 +101,7 @@ for(i in 1:nrow(Data)){
 	for(j in 1:k){
 		temp[j] <- sqrt((Data[i,1]-centroids[j,1])^2+(Data[i,2]-centroids[j,2])^2) 
 	}
+
 min <- get.min(temp)
 Data[i,3] <- min
 
@@ -113,7 +116,6 @@ get.min <- function(Data){
 min <- 10000000
 index <- 0
 for(i in 1:length(Data)){
-
 	if(as.numeric(Data[i]) < min){
 		index = i
 		min = as.numeric(Data[i])
